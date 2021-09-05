@@ -1,22 +1,31 @@
 import time
-from datetime import datetime
 import os
+from datetime import datetime
 from search import call
-from Lib import config,apicall
+from Lib import config, apicall, get_uid, get_playlists, extract_playlists
 from download import dwn,SAVE_PATH
-# from hurry.filesize import size
+from hurry.filesize import size,si
 
+userid = get_uid()
 
+playlists = get_playlists(userid)
 
-raw={}
-search=[]
-x=apicall(config['playlist_id'])
+try:
+    playlist_id = extract_playlists(playlists,config['Playlist'])
+except Exception as e:
+    print(e)
+    exit(-1)
 
-if x.status_code!=200:
+raw = {}
+search = []
+
+x = apicall(playlist_id)
+
+if x.status_code != 200:
     print(x.json())
     exit(-1)
 
-x=x.json()
+x = x.json()
 
 for i in range(x['total']):
     song=x['items'][i]['track']['name']
@@ -25,29 +34,34 @@ for i in range(x['total']):
     raw.update({song:artist})
     search.append(song + " " + "by" + " " + artist)
 
-starttime=time.time()
-songs=call(search)
-j=0
+
+start = time.time()
+songs = call(search)
+
+j = 0
 
 for i in songs:
-    link=songs[i]['link']
+    link = songs[i]['link']
     dwn(link)
-    j+=1
+    j += 1
 
-endtime=time.time()
+end=time.time()
 
-timetaken=endtime-starttime
+total=end-start
 
-print(datetime.utcfromtimestamp(timetaken).strftime('%H:%M:%S'))
+print('Time taken to download: '+datetime.utcfromtimestamp(total).strftime('%H:%M:%S'))
 
 # assing size
-size = 0
+x = 0
 
 # assign folder path
 Folderpath = SAVE_PATH
 
 # get size
 for ele in os.scandir(Folderpath):
-    size += os.stat(ele).st_size
+    x += os.stat(ele).st_size
 
-print(size)
+print('Download Size:'+size(x, system=si))
+
+
+
