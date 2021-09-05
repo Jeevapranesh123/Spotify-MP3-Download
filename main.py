@@ -3,8 +3,8 @@ import os
 from datetime import datetime
 from search import call
 from Lib import config, apicall, get_uid, get_playlists, extract_playlists
-from download import dwn,SAVE_PATH
-from hurry.filesize import size,si
+from download import dwn, SAVE_PATH
+from hurry.filesize import size, si
 
 userid = get_uid()
 
@@ -62,6 +62,3 @@ for ele in os.scandir(Folderpath):
     x += os.stat(ele).st_size
 
 print('Download Size:'+size(x, system=si))
-
-
-
