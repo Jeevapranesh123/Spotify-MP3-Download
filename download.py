@@ -1,5 +1,4 @@
 from __future__ import unicode_literals
-import pytube
 from pytube import YouTube
 import youtube_dl
 import os

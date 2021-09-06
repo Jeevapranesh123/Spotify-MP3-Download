@@ -50,7 +50,7 @@ Example "OAuth_Token":"<copied_token>"
 
 1. Open Config.json
 
-2. Paste the Playlist form which you want to Download Songs
+2. Paste the Name of the Playlist same as in your spotify form which you want to Download Songs 
 
 ```
 Example "Playlist":"<Playlist to Download>"

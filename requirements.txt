@@ -1,0 +1,7 @@
+requests
+os
+hurry.filesize
+datetime
+pytube
+youtube_dl
+youtubesearchpython
